@@ -1,0 +1,11 @@
+textarea,
+input,
+select,
+button {
+  font-family: inherit;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
