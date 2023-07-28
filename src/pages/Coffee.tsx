@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Col, Row } from "antd";
+import axios, { type AxiosError } from "axios";
 
 import { request } from "../request";
 import { CoffeeLayout } from "../layouts/CoffeeLayout";
@@ -10,6 +11,24 @@ import Espresso from "../assets/img/Espresso.png";
 import Cappuccino from "../assets/img/Cappuccino.png";
 import Americano from "../assets/img/Americano.png";
 
+const coffees = [
+  {
+    id: "Americano",
+    name: "Americano",
+    img: Americano,
+  },
+  {
+    id: "Espresso",
+    name: "Espresso",
+    img: Espresso,
+  },
+  {
+    id: "Cappuccino",
+    name: "Cappuccino",
+    img: Cappuccino,
+  },
+];
+
 export function CoffeePage() {
   const navigate = useNavigate();
   const [chosenCoffee, setChosenCoffee] = useState<string | null>(null);
@@ -17,8 +36,10 @@ export function CoffeePage() {
   const onOrder = async (coffee: string) => {
     const user = sessionStorage.getItem("user");
     const parsedUser = user && JSON.parse(user);
-    if (!parsedUser)
+    if (!parsedUser) {
       return customToast.error("Please login again") && navigate("/login");
+    }
+
     try {
       const res = await request.post(
         "/coffee/buy",
@@ -35,8 +56,10 @@ export function CoffeePage() {
       customToast.success(
         `You just ordered a coffee: ${res.data}! Please enjoy!`
       );
-    } catch (error: any) {
-      customToast.error(error.response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        customToast.error(error.response?.data);
+      }
     } finally {
       setChosenCoffee(null);
     }
@@ -57,24 +80,6 @@ export function CoffeePage() {
     alignItems: "center",
     flexDirection: "column",
   };
-
-  const coffees = [
-    {
-      id: "Americano",
-      name: "Americano",
-      img: Americano,
-    },
-    {
-      id: "Espresso",
-      name: "Espresso",
-      img: Espresso,
-    },
-    {
-      id: "Cappuccino",
-      name: "Cappuccino",
-      img: Cappuccino,
-    },
-  ];
 
   return (
     <CoffeeLayout>
