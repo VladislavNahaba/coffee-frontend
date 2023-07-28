@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Col, Row } from "antd";
-import axios, { type AxiosError } from "axios";
+import axios from "axios";
 
 import { request } from "../request";
 import { CoffeeLayout } from "../layouts/CoffeeLayout";

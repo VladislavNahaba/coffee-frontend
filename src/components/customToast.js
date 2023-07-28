@@ -2,55 +2,31 @@ import { toast } from "react-toastify";
 
 export const customToast = {
   success(msg, options = {}) {
-    return toast(
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0px 14px",
-        }}
-      >
-        {msg}
-      </div>,
-      {
-        ...options,
-        style: {
-          backgroundColor: "#66bb6a",
-          width: "auto",
-          height: "68px",
-          borderRadius: "10px",
-          color: "#242424",
-          textAlign: "center",
-          fontFamily: "Cadiz",
-        },
-      }
-    );
+    return toast(msg, {
+      ...options,
+      style: {
+        backgroundColor: "#66bb6a",
+        width: "auto",
+        height: "68px",
+        borderRadius: "10px",
+        color: "#242424",
+        textAlign: "center",
+        fontFamily: "Cadiz",
+      },
+    });
   },
   error(msg, options = {}) {
-    return toast(
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "0px 14px",
-        }}
-      >
-        {msg}
-      </div>,
-      {
-        ...options,
-        style: {
-          backgroundColor: "#ef5350",
-          width: "auto",
-          height: "68px",
-          borderRadius: "10px",
-          color: "#242424",
-          textAlign: "center",
-          fontFamily: "Cadiz",
-        },
-      }
-    );
+    return toast(msg, {
+      ...options,
+      style: {
+        backgroundColor: "#ef5350",
+        width: "auto",
+        height: "68px",
+        borderRadius: "10px",
+        color: "#242424",
+        textAlign: "center",
+        fontFamily: "Cadiz",
+      },
+    });
   },
 };

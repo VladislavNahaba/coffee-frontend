@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Tooltip, Select, Typography } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import { request } from "../request";
 import { AuthLayout } from "../layouts/AuthLayout";
@@ -17,7 +18,9 @@ export function RegisterPage() {
       sessionStorage.setItem("user", JSON.stringify(res.data));
       navigate("/coffee");
     } catch (error) {
-      customToast.error(error);
+      if (axios.isAxiosError(error)) {
+        customToast.error(error.response?.data);
+      }
     }
   };
 
