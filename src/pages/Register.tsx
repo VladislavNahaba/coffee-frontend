@@ -5,16 +5,24 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { request } from "../request";
+import { Membership } from "../types/membership";
+import { register } from "../actions/register";
 import { AuthLayout } from "../layouts/AuthLayout";
 import { customToast } from "../components/customToast";
 import { Seo } from "../components/Seo";
 
 export function RegisterPage() {
   const navigate = useNavigate();
-  const onFinish = async (data: { name: string; membership: string }) => {
+  const [form] = Form.useForm();
+  const onFinish = async ({
+    name,
+    membership,
+  }: {
+    name: string;
+    membership: Membership["type"];
+  }) => {
     try {
-      const res = await request.post("/users/register", data);
+      const res = await register({ name, membership });
       sessionStorage.setItem("user", JSON.stringify(res.data));
       navigate("/coffee");
     } catch (error) {
@@ -70,7 +78,16 @@ export function RegisterPage() {
         </Form.Item>
 
         <Form.Item labelCol={{ span: 24 }}>
-          <Button type="primary" htmlType="submit" block size="large">
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            size="large"
+            disabled={
+              !form.isFieldsTouched(true) ||
+              form.getFieldsError().some(({ errors }) => errors.length)
+            }
+          >
             Submit
           </Button>
         </Form.Item>

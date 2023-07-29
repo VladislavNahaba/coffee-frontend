@@ -1,27 +1,14 @@
 import React from "react";
 import { Typography, Col, Row } from "antd";
+
+import { Quota } from "../types/quota";
 import { CoffeeLayout } from "../layouts/CoffeeLayout";
 import { Seo } from "../components/Seo";
 import Food from "../assets/img/food.png";
-
 import { useFetch } from "../helpers/useFetch";
 
-type Qouta = {
-  id: number;
-  name: string;
-  quotas: {
-    id: number;
-    amount: number;
-    type: "daily" | "hourly";
-    coffee: {
-      id: number;
-      type: string;
-    };
-  }[];
-};
-
 export function KitchenPage() {
-  const { data } = useFetch<Qouta[]>("/qouta", []);
+  const { data } = useFetch<Quota[]>("/qouta", []);
 
   const wrapperStyle: React.CSSProperties = {
     display: "flex",

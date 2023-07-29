@@ -5,16 +5,17 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { request } from "../request";
+import { login } from "../actions/login";
 import { AuthLayout } from "../layouts/AuthLayout";
 import { customToast } from "../components/customToast";
 import { Seo } from "../components/Seo";
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const onFinish = async (data: { name: string }) => {
+  const [form] = Form.useForm();
+  const onFinish = async ({ name }: { name: string }) => {
     try {
-      const res = await request.post("/users/login", data);
+      const res = await login({ name });
       sessionStorage.setItem("user", JSON.stringify(res.data));
       navigate("/coffee");
     } catch (error) {
@@ -55,7 +56,16 @@ export function LoginPage() {
         </Form.Item>
 
         <Form.Item labelCol={{ span: 24 }}>
-          <Button type="primary" htmlType="submit" size="large" block>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="large"
+            block
+            disabled={
+              !form.isFieldsTouched(true) ||
+              form.getFieldsError().some(({ errors }) => errors.length)
+            }
+          >
             Submit
           </Button>
         </Form.Item>

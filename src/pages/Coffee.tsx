@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Typography, Col, Row } from "antd";
 import axios from "axios";
 
-import { request } from "../request";
+import { orderCoffee } from "../actions/orderCoffee";
 import { CoffeeLayout } from "../layouts/CoffeeLayout";
 import { customToast } from "../components/customToast";
 import { Seo } from "../components/Seo";
@@ -41,18 +41,7 @@ export function CoffeePage() {
     }
 
     try {
-      const res = await request.post(
-        "/coffee/buy",
-        {
-          coffee,
-        },
-        {
-          headers: {
-            "user-id": parsedUser.id,
-            "membership-type": parsedUser.membership.type,
-          },
-        }
-      );
+      const res = await orderCoffee({ user: parsedUser, coffee });
       customToast.success(
         `You just ordered a coffee: ${res.data}! Please enjoy!`
       );
